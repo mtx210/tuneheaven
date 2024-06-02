@@ -6,20 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Rating {
+public class AverageMonthlyRating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long songId;
-    private Integer ratingValue;
-    private LocalDateTime rateDate;
+    private Double averageRatingValue;
+    private String averageRatingMonth;
 }

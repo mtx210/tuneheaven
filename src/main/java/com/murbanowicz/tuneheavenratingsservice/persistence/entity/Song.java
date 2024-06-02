@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Song {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private UUID uuid;
     private String name;

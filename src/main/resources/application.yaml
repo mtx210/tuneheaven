@@ -24,5 +24,7 @@ csv:
     ratings-file-folder: ${ratingsfolder}
     ratings-file-mask: ^tuneheaven-songs-\d{4}-\d{2}-\d{2}\.csv$
   export:
-    trending-songs-file: ${trendingFolder}
-    loosing-songs-file: ${loosingFolder}
+    trending-songs-file-dir: ${trendingFolder}
+    trending-songs-file-mask: trending100songs-%d.csv
+    loosing-songs-file-dir: ${loosingFolder}
+    loosing-songs-file-mask: songs-loosing-%d.csv,

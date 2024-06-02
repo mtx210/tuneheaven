@@ -29,7 +29,6 @@ public class ImportSongRatingsService {
     private final SongRepository songRepository;
     private final RatingRepository ratingRepository;
     private final ProcessedFileRepository processedFileRepository;
-
     private static final int SONG_NAME_CSV_INDEX = 0;
     private static final int SONG_ID_CSV_INDEX = 1;
     private static final int REVIEW_RATING_CSV_INDEX = 5;
@@ -64,7 +63,7 @@ public class ImportSongRatingsService {
         List<Rating> ratings = importFileDataRows.stream()
                 .map(importFileDataRow -> Rating.builder()
                         .songId(songCacheService.getSongId(importFileDataRow.getSongUuid()))
-                        .value(importFileDataRow.getReviewRating())
+                        .ratingValue(importFileDataRow.getReviewRating())
                         .rateDate(dateTimeNow)
                         .build())
                 .toList();

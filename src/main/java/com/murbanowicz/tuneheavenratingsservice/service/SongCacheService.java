@@ -18,9 +18,7 @@ import java.util.UUID;
 public class SongCacheService {
 
     private final SongRepository songRepository;
-
     private final Map<UUID, Long> songCache = new HashMap<>();
-
     private static final int PAGE_SIZE = 1000;
 
     @PostConstruct
