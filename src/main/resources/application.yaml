@@ -1,3 +1,18 @@
 spring:
   application:
     name: tuneheaven-ratings-service
+  datasource:
+    url:
+    username:
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+csv:
+  input:
+    ratings-file-location: ${ratingsfolder}
+  output:
+    trending-songs-file-location: ${trendingFolder}
+    loosing-songs-file-location: ${loosingFolder}
