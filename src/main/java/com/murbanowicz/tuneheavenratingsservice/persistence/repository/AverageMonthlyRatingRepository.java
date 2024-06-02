@@ -2,13 +2,26 @@ package com.murbanowicz.tuneheavenratingsservice.persistence.repository;
 
 import com.murbanowicz.tuneheavenratingsservice.persistence.entity.AverageMonthlyRating;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface AverageMonthlyRatingRepository extends JpaRepository<AverageMonthlyRating, Long> {
 
+    @Query(value = """
+           SELECT a.average_rating_value, a.average_rating_month
+           FROM average_monthly_rating a
+           WHERE a.song_id = :songId
+           ORDER BY a.average_rating_month DESC
+           LIMIT 3
+           """, nativeQuery = true)
+    List<Object[]> findAverageSongRatingForLastThreeMonths(Long songId);
+
+    @Transactional
+    @Modifying
     @Query(value = """
             INSERT INTO average_monthly_rating (song_id, average_rating_value, average_rating_month) 
             SELECT song_id, AVG(rating_value) AS avg_rating, :averageRatingMonth 

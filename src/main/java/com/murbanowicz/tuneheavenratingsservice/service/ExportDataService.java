@@ -33,7 +33,7 @@ public class ExportDataService {
     @Value("${csv.export.loosing-songs-file-mask}")
     private String exportLoosingSongsFileMask;
 
-    // TODO extract common
+    // TODO extract common code
     public void exportTrendingSongsFile(LocalDateTime dateTimeNow) {
         LocalDate dateNow = dateTimeNow.toLocalDate();
 
@@ -45,6 +45,7 @@ public class ExportDataService {
                 .map(this::mapDatabaseResponse)
                 .toList();
 
+        // TODO file mask fix
         File csvOutputFile = new File(exportTrendingSongsFileDir + String.format(exportTrendingSongsFileMask, dateNow.format(YEAR_MONTH_PATTERN)));
         try (PrintWriter printWriter = new PrintWriter(csvOutputFile)) {
             printWriter.println(EXPORT_CSV_FILE_HEADER);
@@ -67,6 +68,7 @@ public class ExportDataService {
                 .map(this::mapDatabaseResponse)
                 .toList();
 
+        // TODO file mask fix
         File csvOutputFile = new File(exportLoosingSongsFileDir + String.format(exportLoosingSongsFileMask, dateNow.format(YEAR_MONTH_PATTERN)));
         try (PrintWriter printWriter = new PrintWriter(csvOutputFile)) {
             printWriter.println(EXPORT_CSV_FILE_HEADER);

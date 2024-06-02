@@ -24,7 +24,7 @@ public class SongCacheService {
     @PostConstruct
     private void initCache() {
         long totalSongsAmount = songRepository.count();
-        long totalPagesAmount = totalSongsAmount / PAGE_SIZE;
+        int totalPagesAmount = (int) Math.ceil((double) totalSongsAmount / PAGE_SIZE);
 
         log.info(String.format("Initializing song cache, db song records amount: %d", totalSongsAmount));
         for (int pageNumber=0 ; pageNumber<totalPagesAmount; pageNumber++) {

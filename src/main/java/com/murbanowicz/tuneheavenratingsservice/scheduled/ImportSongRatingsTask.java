@@ -41,7 +41,7 @@ public class ImportSongRatingsTask {
             importSongRatingsService.importFromFile(importFile, dateTimeNow);
         }
 
-        // TODO
+        // TODO extract into separate task
         if (lastDayOfMonth()) {
             log.info("Last day of the month - starting export tasks");
             log.info("Starting monthly song average ratings calculations");

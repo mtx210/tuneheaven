@@ -80,6 +80,7 @@ public class ImportSongRatingsService {
 
     private void archiveFile(File importFile) {
         try {
+            // TODO fix archiving name
             Files.move(importFile.toPath(), importFile.toPath().resolveSibling(importFile.getName().concat(ARCHIVED_FILE_SUFFIX)));
         } catch (IOException e) {
             log.warn(String.format("Failed to archive file: %s", importFile.getName()));
