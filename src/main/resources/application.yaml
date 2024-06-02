@@ -9,10 +9,20 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        generate_statistics: true
+
+scheduled-tasks:
+  import-song-ratings-cron: 0 5 23 * * *
 
 csv:
-  input:
-    ratings-file-location: ${ratingsfolder}
-  output:
-    trending-songs-file-location: ${trendingFolder}
-    loosing-songs-file-location: ${loosingFolder}
+  import:
+    ratings-file-folder: ${ratingsfolder}
+    ratings-file-mask: ^tuneheaven-songs-\d{4}-\d{2}-\d{2}\.csv$
+  export:
+    trending-songs-file: ${trendingFolder}
+    loosing-songs-file: ${loosingFolder}
