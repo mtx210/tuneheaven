@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "d1b67b4e-3d0c-4df8-868f-913a0483dff6",
+		"name": "Tuneheaven",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10010882"
+	},
+	"item": [
+		{
+			"name": "get average song rating for period",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/97e06a5a-5d6d-4676-8a2b-25c5afc01213/avg?since=20240601&until=20240630",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"97e06a5a-5d6d-4676-8a2b-25c5afc01213",
+						"avg"
+					],
+					"query": [
+						{
+							"key": "since",
+							"value": "20240601"
+						},
+						{
+							"key": "until",
+							"value": "20240630"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get average song rating for last three months",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/97e06a5a-5d6d-4676-8a2b-25c5afc01213/avg-three-months",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"97e06a5a-5d6d-4676-8a2b-25c5afc01213",
+						"avg-three-months"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

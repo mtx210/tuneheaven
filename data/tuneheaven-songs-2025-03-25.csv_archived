@@ -1,0 +1,4 @@
+song_name,song_id,artist_name,artist_id,user_id,review_rating,genre
+Bit by the Wild Bytes,77e06a5a-5d6d-4676-8a2b-25c5afc01213,The Bittles,892c5326-26b5-4022-9104-c44480237421,34746d86-7aa2-43cd-bcd7-c400c2d29200,4,EDM
+Binary February,666475fd-d2da-42fa-92d1-1124d97418d5,Andrew Smith,a17e5076-7b67-4d25-b511-2c3ebdec9858,c05a2840-6caf-4eb6-a26a-9f23ebfb6036,3,ROCK
+Summer Time and Spring Boot,ee4de8dd-d845-4a6d-84de-fa057e4d2fef,New Distro,a17e5076-7b67-4d25-b511-2c3ebdec9858,a54ef13d-b627-4cec-8106-f4b5143934a7,2,POP
