@@ -41,9 +41,13 @@ public class ImportSongRatingsTask {
             importSongRatingsService.importFromFile(importFile, dateTimeNow);
         }
 
+        // TODO
         if (lastDayOfMonth()) {
+            log.info("Last day of the month - starting export tasks");
+            log.info("Starting monthly song average ratings calculations");
             averageMonthlyRatingService.calculateAndSaveAverageMonthlySongRatings(dateTimeNow);
 
+            log.info("Starting monthly csv files generation");
             exportDataService.exportTrendingSongsFile(dateTimeNow);
             exportDataService.exportLoosingSongsFile(dateTimeNow);
         }

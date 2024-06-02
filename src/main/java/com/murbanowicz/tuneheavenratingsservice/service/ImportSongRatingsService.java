@@ -32,16 +32,14 @@ public class ImportSongRatingsService {
     private static final int SONG_NAME_CSV_INDEX = 0;
     private static final int SONG_ID_CSV_INDEX = 1;
     private static final int REVIEW_RATING_CSV_INDEX = 5;
+    private static final String ARCHIVED_FILE_SUFFIX = "_archived";
 
     @Transactional
     public void importFromFile(File importFile, LocalDateTime dateTimeNow) {
         Optional<ProcessedFile> processedFileEntity = processedFileRepository.findByFileName(importFile.getName());
         if (processedFileEntity.isPresent()) {
-            try {
-                Files.move(importFile.toPath(), importFile.toPath().resolveSibling(importFile.getName().concat("_archived")));
-            } catch (IOException e) {
-                log.warn(String.format("Failed to archive file: %s", importFile.getName()));
-            }
+            archiveFile(importFile);
+            log.info(String.format("File: %s has already been processed before. File has been archived.", importFile.getName()));
             return;
         }
 
@@ -52,7 +50,7 @@ public class ImportSongRatingsService {
                     .map(this::mapCsvLineToImportFileDataRow)
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException("Cannot access import file", e);
+            throw new RuntimeException(String.format("Cannot access import file: %s", importFile.getName()), e);
         }
 
         List<Song> missingDatabaseSongs = getMissingDatabaseSongs(importFileDataRows);
@@ -62,7 +60,7 @@ public class ImportSongRatingsService {
 
         List<Rating> ratings = importFileDataRows.stream()
                 .map(importFileDataRow -> Rating.builder()
-                        .songId(songCacheService.getSongId(importFileDataRow.getSongUuid()))
+                        .songId(getSongId(importFileDataRow.getSongUuid()))
                         .ratingValue(importFileDataRow.getReviewRating())
                         .rateDate(dateTimeNow)
                         .build())
@@ -73,6 +71,28 @@ public class ImportSongRatingsService {
                 .fileName(importFile.getName())
                 .dateProcessed(dateTimeNow)
                 .build());
+    }
+
+    private Long getSongId(UUID songUuid) {
+        return Optional.of(songCacheService.getSongId(songUuid))
+                .orElseThrow(() -> new RuntimeException(String.format("Cannot find song with uuid: %s", songUuid.toString())));
+    }
+
+    private void archiveFile(File importFile) {
+        try {
+            Files.move(importFile.toPath(), importFile.toPath().resolveSibling(importFile.getName().concat(ARCHIVED_FILE_SUFFIX)));
+        } catch (IOException e) {
+            log.warn(String.format("Failed to archive file: %s", importFile.getName()));
+        }
+    }
+
+    private ImportFileDataRow mapCsvLineToImportFileDataRow(String csvLine) {
+        List<String> csvElements = Arrays.asList(csvLine.split(","));
+        return ImportFileDataRow.builder()
+                .songName(csvElements.get(SONG_NAME_CSV_INDEX))
+                .songUuid(UUID.fromString(csvElements.get(SONG_ID_CSV_INDEX)))
+                .reviewRating(Integer.valueOf(csvElements.get(REVIEW_RATING_CSV_INDEX)))
+                .build();
     }
 
     private List<Song> getMissingDatabaseSongs(List<ImportFileDataRow> importFileDataRows) {
@@ -90,14 +110,5 @@ public class ImportSongRatingsService {
         });
 
         return missingSongs;
-    }
-
-    private ImportFileDataRow mapCsvLineToImportFileDataRow(String csvLine) {
-        List<String> csvElements = Arrays.asList(csvLine.split(","));
-        return ImportFileDataRow.builder()
-                .songName(csvElements.get(SONG_NAME_CSV_INDEX))
-                .songUuid(UUID.fromString(csvElements.get(SONG_ID_CSV_INDEX)))
-                .reviewRating(Integer.valueOf(csvElements.get(REVIEW_RATING_CSV_INDEX)))
-                .build();
     }
 }
